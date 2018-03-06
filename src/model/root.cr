@@ -42,26 +42,19 @@ class Root
   end
 
   def render : String
-    if @@content
-      return @@content.as(String)
+    unless @@content
+      STDERR.puts "memoization failed... rebuilding"
+
+      begin
+        file = File.read({{__DIR__}} + "/../../lib/stout/README.md")
+        markdown = Markdown.to_html(file)
+      rescue e
+        puts e
+      end
+
+      @@content = markdown.try &.split("<hr/>")[0]
     end
 
-    STDERR.puts "memoization failed... rebuilding"
-
-    begin
-      file = File.read({{__DIR__}} + "/../../lib/stout/README.md")
-      markdown = Markdown.to_html(file)
-    rescue e
-      puts e
-    end
-
-    @@content = layout { markdown.try &.split("<hr/>")[0] }
-  end
-end
-
-class Morganite::Morganite
-  def self.yield
-    m = Morganite.new
-    with m yield
+    layout { @@content }
   end
 end
