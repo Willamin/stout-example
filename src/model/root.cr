@@ -1,6 +1,7 @@
 require "morganite"
 require "markdown"
 require "stout"
+require "html"
 
 alias M = Morganite::Morganite
 
@@ -10,9 +11,7 @@ class Root
   @@content : String?
 
   def self.routes(server)
-    server.get "/" do |c|
-      c << Root.new.render
-    end
+    server.get("/", &.<<(Root.new.render))
   end
 
   def navbar
@@ -42,8 +41,12 @@ class Root
     }
   end
 
-  def render
-    @@content unless @@content.nil?
+  def render : String
+    if @@content
+      return @@content.as(String)
+    end
+
+    STDERR.puts "memoization failed... rebuilding"
 
     begin
       file = File.read({{__DIR__}} + "/../../lib/stout/README.md")
