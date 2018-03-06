@@ -1,0 +1,10 @@
+name: stout-example
+version: 0.1.0
+
+dependencies:
+  stout:
+    github: willamin/stout
+
+targets:
+  app:
+    main: src/app.cr

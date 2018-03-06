@@ -1,0 +1,14 @@
+version: 1.0
+shards:
+  morganite:
+    github: willamin/morganite
+    commit: 91336ba25b9aad5c205e4699b5f68d68786a0567
+
+  radix:
+    github: luislavena/radix
+    version: 0.3.8
+
+  stout:
+    github: willamin/stout
+    commit: 207ec1878f5a099a8711a861ba8b0c61ac612e91
+
