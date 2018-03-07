@@ -1,14 +1,30 @@
 version: 1.0
 shards:
+  db:
+    github: crystal-lang/crystal-db
+    version: 0.5.0
+
+  granite_orm:
+    github: amberframework/granite-orm
+    version: 0.8.4
+
+  micrate:
+    github: amberframework/micrate
+    version: 0.3.0
+
   morganite:
     github: willamin/morganite
-    commit: 91336ba25b9aad5c205e4699b5f68d68786a0567
+    commit: 9c0562e3157fcff117eb5f5822b8fe74f7497f4a
+
+  pg:
+    github: will/crystal-pg
+    version: 0.14.1
 
   radix:
     github: luislavena/radix
     version: 0.3.8
 
   stout:
-    github: willamin/stout
-    commit: 207ec1878f5a099a8711a861ba8b0c61ac612e91
+    path: ../stout
+    version: 0.1.0
 

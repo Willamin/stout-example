@@ -3,7 +3,12 @@ version: 0.1.0
 
 dependencies:
   stout:
-    github: willamin/stout
+    # github: willamin/stout
+    path: ../stout
+  pg:
+    github: will/crystal-pg
+  micrate:
+    github: amberframework/micrate
 
 targets:
   app:
