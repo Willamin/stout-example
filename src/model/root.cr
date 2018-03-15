@@ -23,7 +23,7 @@ class Root
         puts e
       end
 
-      @@content = markdown.try &.split("<hr/>")[0]
+      @@content = markdown.try(&.split("<hr/>")[0])
     end
 
     context << Layout.new(context).to_s { @@content }
