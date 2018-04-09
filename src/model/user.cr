@@ -9,8 +9,10 @@ class User < Granite::ORM::Base
   property password : String?
 
   def self.routes(server)
-    server.get("/users", &->index(Stout::Context))
-    server.get("/users/:id", &->view(Stout::Context))
+    server.post("/users/create", :users_create, &->create(Stout::Context))
+    server.get("/users", :users_index, &->index(Stout::Context))
+    server.get("/users/:id", :users_show, &->view(Stout::Context))
+    server.get("/users/new", :users_new, &->neww(Stout::Context))
   end
 
   def self.index(context : Stout::Context)
@@ -29,14 +31,53 @@ class User < Granite::ORM::Base
 
   def self.view(context : Stout::Context)
     u = User.find(context.params["id"])
-    if u
-      context << u.email
-      context << "\n"
-    else
-      context << "that user wasn't found"
-    end
+    context << Layout.new(context).to_s {
+      if u
+        "#{u.email}\n"
+      else
+        "that user wasn't found"
+      end
+    }
   rescue e
     context << e
+  end
+
+  def self.neww(context : Stout::Context)
+    context << Layout.new(context).to_s {
+      Morganite::Morganite.yield {
+        form(method: "post", action: context.path(:users_create)) {
+          [
+            div class: "form-group" {
+              [
+                label for: "email" { "Email" },
+                input type: "email", class: "form-control", id: "email", name: "email",
+              ].join
+            },
+            div class: "form-group" {
+              [
+                label for: "password" { "Password" },
+                input type: "password", class: "form-control", id: "password", name: "password",
+              ].join
+            },
+            div class: "form-group" {
+              [
+                label for: "password-confirmation" { "Password Confirmation" },
+                input type: "password", class: "form-control", id: "password-confirmation", name: "password-confirmation",
+              ].join
+            },
+            input type: "submit", class: "btn btn-primary",
+          ].join
+        }
+      }
+    }
+  end
+
+  def self.create(context : Stout::Context)
+    context << Layout.new(context).to_s {
+      Morganite::Morganite.yield {
+        h1 { "Thanks for joining" }
+      }
+    }
   end
 
   def self.schema
