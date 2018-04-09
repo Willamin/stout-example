@@ -55,8 +55,9 @@ class Layout
             div class: "collapse navbar-collapse", id: "navbarSupportedContent" {
               ul class: "navbar-nav mr-auto" {
                 [
-                  nav_link("/", "Home"),
-                  nav_link("/users", "Users"),
+                  nav_link(context.path(:root), "Home"),
+                  nav_link(context.path(:users_index), "Users"),
+                  nav_link(context.path(:users_new), "Create a User"),
                 ].join
               }
             },
