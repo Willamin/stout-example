@@ -16,21 +16,12 @@ rescue e : PQ::PQError
   puts "table already exists"
 end
 
-def draw_routes(tree, prefix = "")
-  me = prefix + tree.key
-  puts me
-  tree.children.each do |c|
-    draw_routes(c, me)
-  end
-end
-
 server = Stout::Server.new
 
 Root.routes(server)
 User.routes(server)
 Layout.routes(server)
 
-puts "routes:"
-draw_routes(server.routes.root)
+Stout::Cli.handle(server)
 
 server.listen
