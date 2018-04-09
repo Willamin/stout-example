@@ -17,6 +17,7 @@ rescue e : PQ::PQError
 end
 
 server = Stout::Server.new
+server.default_route = "/"
 
 Root.routes(server)
 User.routes(server)
