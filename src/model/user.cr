@@ -19,13 +19,18 @@ class User < Granite::ORM::Base
     users = User.all
 
     context << Layout.new(context).to_s {
-      users.try &.each do |u|
-        u.email
-      end
-
-      if users.size == 0
-        "no users found"
-      end
+      Morganite::Morganite.yield {
+        if users.size == 0
+          [h1 { "Users" }, p { "no users found" }].join
+        else
+          [
+            h1 { "Users" },
+            ul {
+              users.try &.map { |u| li { u.email } }.join
+            },
+          ].join
+        end
+      }
     }
   end
 
@@ -42,7 +47,7 @@ class User < Granite::ORM::Base
     context << e
   end
 
-  def self.neww(context : Stout::Context)
+  def self.neww(context : Stout::Context, previous_email : String? = nil, pass_message : String? = nil)
     context << Layout.new(context).to_s {
       Morganite::Morganite.yield {
         form(method: "post", action: context.path(:users_create)) {
@@ -50,7 +55,7 @@ class User < Granite::ORM::Base
             div class: "form-group" {
               [
                 label for: "email" { "Email" },
-                input type: "email", class: "form-control", id: "email", name: "email",
+                input type: "email", class: "form-control", id: "email", name: "email", value: previous_email.to_s,
               ].join
             },
             div class: "form-group" {
@@ -62,6 +67,9 @@ class User < Granite::ORM::Base
             div class: "form-group" {
               [
                 label for: "password-confirmation" { "Password Confirmation" },
+                if pass_message
+                  span class: "pass-message" { pass_message }
+                end,
                 input type: "password", class: "form-control", id: "password-confirmation", name: "password-confirmation",
               ].join
             },
@@ -73,9 +81,28 @@ class User < Granite::ORM::Base
   end
 
   def self.create(context : Stout::Context)
+    password = context.data.not_nil!["password"].as_s
+    password_confirmation = context.data.not_nil!["password-confirmation"].as_s
+    email = context.data.not_nil!["email"].as_s
+
+    unless password == password_confirmation
+      context.response.status_code = 400
+      neww(context, email, "passwords don't match")
+      return
+    end
+
+    user = User.new
+    user.email = email
+    user.password = password
+    unless user.save
+      raise "User save error"
+    end
+
     context << Layout.new(context).to_s {
       Morganite::Morganite.yield {
-        h1 { "Thanks for joining" }
+        [
+          h1 { "Thanks for joining" },
+        ].join
       }
     }
   end

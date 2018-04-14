@@ -1,4 +1,4 @@
-/* https://coolors.co/331b12-eef4d4-daefb3-bbce8a-feffbe */
+/* https://coolors.co/331b12-eef4d4-ad343e-bbce8a-feffbe */
 
 body {
   background-color: #331b12;
@@ -6,14 +6,14 @@ body {
 }
 
 nav.navbar {
-  background-color: #36261E !important; 
+  background-color: #36261E !important;
   box-shadow: 0 5px 15px black;
 }
 
 
 .page {
   background: #feffbe;
-  box-shadow: 0 0 15px black; 
+  box-shadow: 0 0 15px black;
   width: calc(100% - 2rem);
   max-width: 600px;
   margin: 1rem auto;
@@ -38,4 +38,14 @@ nav.navbar {
   background: #eef4d4;
   color: #331b12;
   border: 2px solid #331b12;
+}
+
+.pass-message {
+  color: #ad343e;
+  border: 2px solid #ad343e;
+  border-radius: 4px;
+  padding: 3px 7px;
+  float: right;
+  line-height: 1em;
+  margin: 2px;
 }
