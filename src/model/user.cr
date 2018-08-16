@@ -1,6 +1,6 @@
-require "granite_orm/adapter/pg"
+require "granite/adapter/pg"
 
-class User < Granite::ORM::Base
+class User < Granite::Base
   adapter pg
   field email : String
   field password : String
@@ -81,9 +81,9 @@ class User < Granite::ORM::Base
   end
 
   def self.create(context : Stout::Context)
-    password = context.data.not_nil!["password"].as_s
-    password_confirmation = context.data.not_nil!["password-confirmation"].as_s
-    email = context.data.not_nil!["email"].as_s
+    password = context.params.post_params.not_nil!["password"].as_s
+    password_confirmation = context.params.post_params.not_nil!["password-confirmation"].as_s
+    email = context.params.post_params.not_nil!["email"].as_s
 
     unless password == password_confirmation
       context.response.status_code = 400
