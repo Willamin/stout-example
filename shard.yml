@@ -4,13 +4,14 @@ version: 0.1.0
 dependencies:
   stout:
     github: willamin/stout
-    # path: ../stout
+    version: 0.3.0
   pg:
     github: will/crystal-pg
   morganite:
     github: willamin/morganite
   granite:
     github: amberframework/granite
+    version: 0.13.0
 
 targets:
   app:

@@ -1,7 +1,6 @@
-require "granite/adapter/pg"
-
 class User < Granite::Base
-  adapter pg
+  adapter postgres
+
   field email : String
   field password : String
 

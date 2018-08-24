@@ -1,10 +1,15 @@
 require "yaml"
 require "stout"
 Stout::Magic.deft
-
-require "./model/*"
+require "granite/base"
+require "db"
+require "granite/adapter/pg"
 
 database = YAML.parse(File.read({{__DIR__}} + "/../config/database.yml"))["pg"]["database"].as_s
+
+Granite::Adapters << Granite::Adapter::Pg.new({name: "postgres", url: database})
+
+require "./model/*"
 
 DB.open database do |db|
   db.exec User.schema
