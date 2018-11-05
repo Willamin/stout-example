@@ -4,7 +4,7 @@ version: 0.1.0
 dependencies:
   stout:
     github: willamin/stout
-    version: 0.3.0
+    version: 0.3.1
   pg:
     github: will/crystal-pg
   morganite:
